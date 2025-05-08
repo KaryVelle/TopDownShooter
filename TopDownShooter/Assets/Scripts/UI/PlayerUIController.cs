@@ -65,7 +65,7 @@ public class PlayerUIController : MonoBehaviour
     {
         if (isActive)
         {
-            shieldBar.gameObject.SetActive(true);
+           // shieldBar.gameObject.SetActive(true);
             shieldBar.fillAmount = Mathf.Clamp01(currentShield / maxShield);
         }
         else

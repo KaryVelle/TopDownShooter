@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BulletEnem : MonoBehaviour
@@ -8,6 +9,8 @@ public class BulletEnem : MonoBehaviour
 
     private Vector3 _direction;
     private float _lifeTimer;
+
+    public event Action OnHitPlayer;
 
     public void SetDirection(Vector3 dir)
     {
@@ -30,7 +33,8 @@ public class BulletEnem : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerController health))
         {
-            health.ReceiveDamage(damage);
+            OnHitPlayer?.Invoke();
+            health.ReceiveDamage (damage);
         }
 
         gameObject.SetActive(false);

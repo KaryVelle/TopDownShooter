@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BulletPlayer : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class BulletPlayer : MonoBehaviour
     [SerializeField] private float lifetime = 3f;
 
     private float timer;
+
+    public event Action OnHitEnemy;
 
     private void OnEnable()
     {
@@ -34,6 +37,7 @@ public class BulletPlayer : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enem))
         {
+            OnHitEnemy?.Invoke();
             enem.TakeDamage(damage);
         }
 

@@ -27,13 +27,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float shieldRechargeDelay = 3f; 
     private Coroutine _shieldRegenCoroutine;
     private Coroutine _shieldDelayCoroutine;
-    [SerializeField] private bool isRegeneratingShield = false;
-    private bool _canRegenerateShield = true;
+    //[SerializeField] private bool isRegeneratingShield = false;
+    //private bool _canRegenerateShield = true;
     
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float verticalVelocity = 0f;
-    [SerializeField] private float groundCheckDistance = 0.1f;
+   // [SerializeField] private float groundCheckDistance = 0.1f;
     
+    public event Action OnShoot;
     public event Action<float> OnHpChanged;
     public event Action<float, bool> OnShieldChanged;
     
@@ -136,7 +137,9 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         pool.AskForObject(shootPos);
+        OnShoot?.Invoke();
     }
+
 
     private void ShootMissile()
     {
@@ -148,6 +151,16 @@ public class PlayerController : MonoBehaviour
 
     public void ReceiveDamage(float damage)
     {
+        hp -= damage;
+        hp = Mathf.Max(0f, hp);
+        OnHpChanged?.Invoke(hp);
+
+        if (hp <= 0)
+        {
+            Die();
+        }
+
+        /*
         // Siempre cancelar la regeneración y el delay previos
         if (_shieldRegenCoroutine != null)
         {
@@ -189,21 +202,25 @@ public class PlayerController : MonoBehaviour
         }
 
         _shieldDelayCoroutine = StartCoroutine(StartShieldRegenAfterDelay());
+        */
     }
 
-    
+    /*
     private IEnumerator StartShieldRegenAfterDelay()
     {
         yield return new WaitForSeconds(shieldRechargeDelay);
         _canRegenerateShield = true;
         _shieldRegenCoroutine = StartCoroutine(RecoverShield());
     }
+    */
+
     private void Die()
     {
         Debug.Log("Jugador ha muerto!");
         gameObject.SetActive(false);
     }
 
+    /*/
     private IEnumerator RecoverShield()
     {
         isRegeneratingShield = true;
@@ -228,6 +245,7 @@ public class PlayerController : MonoBehaviour
         isRegeneratingShield = false;
         _shieldRegenCoroutine = null;
     }
+    */
 
     //Power ups
 
