@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float verticalVelocity = 0f;
+    [SerializeField] private Canvas endCanvas;
    // [SerializeField] private float groundCheckDistance = 0.1f;
     
     public event Action OnShoot;
@@ -217,6 +218,7 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Jugador ha muerto!");
+        endCanvas.enabled = true;
         gameObject.SetActive(false);
     }
 

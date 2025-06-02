@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private EnemyCountManager enemyCountManager;
     
+    public event System.Action OnHit;
+    
     public event System.Action<Enemy> OnDeath;
 
     private void Awake()
@@ -141,6 +143,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        OnHit?.Invoke();
         _currentHealth -= amount;
         if (_currentHealth <= 0)
         {
@@ -150,10 +153,12 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        /*
         if (Random.value <= coinDropChance)
         {
             Instantiate(coinPrefab, transform.position, Quaternion.identity);
         }
+        */
 
         if (scoreManager != null)
         {

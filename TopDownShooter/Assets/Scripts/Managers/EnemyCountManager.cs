@@ -9,6 +9,7 @@ public class EnemyCountManager : MonoBehaviour
 
     private void Awake()
     {
+        waveManager = gameObject.gameObject.GetComponent<WaveManager>();
         FindEnemies();
     }
 
@@ -21,6 +22,7 @@ public class EnemyCountManager : MonoBehaviour
             var enemy = type[index];
             AddEnemy(enemy);
         }
+        
     }
 
     private void AddEnemy(Enemy enemy)
