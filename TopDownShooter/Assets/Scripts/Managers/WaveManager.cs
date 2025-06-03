@@ -1,13 +1,14 @@
 using System;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Canvas hudCanvas;
-    [SerializeField] private Canvas shopCanvas;
+    [SerializeField] private Canvas nextCanvas;
     private EnemyCountManager _enemyCountManager;
-    public Difficulty difficulty = Difficulty.Normal;
+    public Difficulty difficulty;
     
     [Header("Enemies")]
     [SerializeField] private GameObject easyEnemies;
@@ -23,8 +24,7 @@ public class WaveManager : MonoBehaviour
     {
         Time.timeScale = 0;
         hudCanvas.enabled = false;
-        shopCanvas.enabled = true;
-        ContinueGame();
+        nextCanvas.enabled = true;
     }
 
     public void ContinueGame()
@@ -32,7 +32,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log(difficulty);
         Time.timeScale = 1;
         hudCanvas.enabled = true;
-        shopCanvas.enabled = false;
+        nextCanvas.enabled = false;
 
         switch (difficulty)
         {
@@ -66,6 +66,7 @@ public class WaveManager : MonoBehaviour
             for (var indexChildren = 0; indexChildren < children; indexChildren++)
             {
                 parentTransform.GetChild(indexChildren).gameObject.SetActive(true);
+                parentTransform.GetChild(indexChildren).GetComponent<Enemy>().ResetPosition();
             }
         }
     }

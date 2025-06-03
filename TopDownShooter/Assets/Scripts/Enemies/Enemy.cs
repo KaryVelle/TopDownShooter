@@ -28,9 +28,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private int scoreValue = 100;
-    [SerializeField, Range(0f, 1f)] private float coinDropChance = 0.2f;
+    //[SerializeField, Range(0f, 1f)] private float coinDropChance = 0.2f;
 
     [SerializeField] private EnemyCountManager enemyCountManager;
+    [SerializeField] private Transform startPosition;
     
     public event System.Action OnHit;
     
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _currentHealth = maxHealth;
         enemyCountManager = FindAnyObjectByType<EnemyCountManager>();
+        startPosition = transform;
     }
 
     private void Start()
@@ -169,9 +171,12 @@ public class Enemy : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-    
-    
 
+    public void ResetPosition()
+    {
+        transform.position = startPosition.position;
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
